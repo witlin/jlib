@@ -31,6 +31,13 @@ public class DCLinkedList implements ILinkedList, ISort {
         this.tail = tail;
     }
 
+    public ILinkedListNode getHead() {
+        return head;
+    } 
+    public ILinkedListNode getTail() {
+        return tail;
+    }
+
     /**
      * 
      * @return

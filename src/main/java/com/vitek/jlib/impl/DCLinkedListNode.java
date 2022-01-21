@@ -6,29 +6,35 @@ import com.vitek.jlib.api.ILinkedListNode;
  * 
  * @author Victor Smolinski
  */
-public class DCLinkedListNode<T> implements ILinkedListNode {
+public class DCLinkedListNode<T> implements ILinkedListNode<T> {
 
     // Fields
-    private ILinkedListNode next;
-    private ILinkedListNode previous;
+    private ILinkedListNode<T> next;
+    private ILinkedListNode<T> previous;
+    private T value;
+
+    //Constructor
+    private DCLinkedListNode (T v) {
+        this.value = v;
+    }
 
     // API Methods
 
     /**
      * @param node
     */
-    public void setNext(ILinkedListNode node) {next = node;}
+    public void setNext(ILinkedListNode<T> node) {next = node;}
     
     /**
      * @param node
      */
-    public void setPrevious(ILinkedListNode node) {previous = node;}
+    public void setPrevious(ILinkedListNode<T> node) {previous = node;}
 
     /**
      * 
      * @return
      */
-    public ILinkedListNode getNext() {
+    public ILinkedListNode<T> getNext() {
         try {
             return next;
         } catch (Exception e) { System.err.println(e.getLocalizedMessage());}
@@ -38,7 +44,7 @@ public class DCLinkedListNode<T> implements ILinkedListNode {
     /**
      * @return
      */
-    public ILinkedListNode getPrevious() {
+    public ILinkedListNode<T> getPrevious() {
         try {
             return previous;
         } catch (Exception e) { System.err.println(e.getLocalizedMessage());}
@@ -63,14 +69,21 @@ public class DCLinkedListNode<T> implements ILinkedListNode {
         return false;
     }
 
+    public static <T> DCLinkedListNode<T> with(T value){
+        return new DCLinkedListNode<T>(value);
+    }
+
+    public T get() {
+        return value;
+    }
+
     /**
      * 
      * @return
      */
     @Override
     public String toString() {
-        //TODO
-        return null;
+        return ((Object)value).toString();
     }
 
     /**
@@ -80,7 +93,6 @@ public class DCLinkedListNode<T> implements ILinkedListNode {
      */
     @Override
     public boolean equals(Object o) {
-        //TODO
-        return false;
+        return ((Object)value).equals(o);
     }
 }

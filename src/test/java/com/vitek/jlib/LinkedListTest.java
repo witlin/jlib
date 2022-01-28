@@ -27,7 +27,7 @@ public class LinkedListTest extends TestCase {
     }
 
     @Test
-    @DisplayName("Add first element to a non-empty list.")
+    @DisplayName("Add first element to a non-empty list and check for all getNext, head, and tail refs are good.")
     public void testAddFirst2() throws Exception {
         String word = "A B C D E F";
         DCLinkedList list = new DCLinkedList();
@@ -66,5 +66,11 @@ public class LinkedListTest extends TestCase {
                               .getNext().get());
         
         assertEquals("A", list.getTail().get());
+    }
+
+    @Test
+    @DisplayName("Add first element to a non-empty list and check for all getPrevious, head and tail refs are good.")
+    public void testAddFirst() throws Exception {
+        
     }
 }

@@ -58,10 +58,10 @@ public class DCLinkedList implements ILinkedList, ISort {
           this.count ++;
           return;
       }
-      this.head.setPrevious(node);
       ILinkedListNode temp = this.head;
       this.head = node;
       this.head.setNext(temp);
+      if (tail == null) tail = temp;
       this.count++;
     }
 
@@ -167,15 +167,17 @@ public class DCLinkedList implements ILinkedList, ISort {
      * @return
      */
     @SuppressWarnings ("unchecked")
-    public Stream<DCLinkedListNode<Integer>> toStream() {
-        DCLinkedListNode<Integer> item = (DCLinkedListNode<Integer>)this.head;
-        Stream<DCLinkedListNode<Integer>> stream;
-        Stream.Builder<DCLinkedListNode<Integer>> builder = Stream.builder();
+    public Stream<ILinkedListNode> toStream() {
+        ILinkedListNode item = this.head;
+        Stream<ILinkedListNode> stream = null;
+        Stream.Builder<ILinkedListNode> builder = Stream.builder();
         while(item.hasNext()) {
             builder.accept(item);
-            item = (DCLinkedListNode<Integer>)item.getNext();
+            item = item.getNext();
         }
+        try {
         stream = builder.build();
+        } catch (IllegalStateException e) { e.printStackTrace(); }
         return stream;
     }
 

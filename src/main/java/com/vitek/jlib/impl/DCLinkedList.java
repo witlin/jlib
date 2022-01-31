@@ -61,7 +61,8 @@ public class DCLinkedList implements ILinkedList, ISort {
       ILinkedListNode temp = this.head;
       this.head = node;
       this.head.setNext(temp);
-      if (tail == null) tail = temp;
+      temp.setPrevious(this.head);
+      if (tail == null) this.tail = temp;
       this.count++;
     }
 

@@ -1,7 +1,9 @@
 package com.vitek.jlib;
 
 import java.util.Arrays;
+import java.util.Optional;
 
+import com.vitek.jlib.api.ILinkedList;
 import com.vitek.jlib.api.ILinkedListNode;
 import com.vitek.jlib.impl.DCLinkedList;
 import com.vitek.jlib.impl.DCLinkedListNode;
@@ -16,61 +18,48 @@ import junit.framework.TestSuite;
 public class LinkedListTest extends TestCase {
 
     @Test
-    @DisplayName("Add first element to an empty list.")
-    public void testAddFirst1() throws Exception {
-        DCLinkedList list = new DCLinkedList();
-        DCLinkedListNode<String> node = DCLinkedListNode.with("A");
-        list.addFirst(node);
-
-        assertTrue(list.getHead().get().equals("A"));
-        assertEquals(list.getHead().get(), "A");
-    }
-
-    @Test
-    @DisplayName("Add first element to a non-empty list and check for all getNext, head, and tail refs are good.")
-    public void testAddFirst2() throws Exception {
+    @DisplayName("Add elements from the top and" + 
+                 " check that all refs are good traversing the list" +
+                 " in both directions.")
+    public void testAddFirst() throws Exception {
         String word = "A B C D E F";
-        DCLinkedList list = new DCLinkedList();
-        Arrays.stream(word.split(" ")).forEach(e -> {
+        ILinkedList list = new DCLinkedList();
+
+        // Fill the list with values.
+        Arrays.stream(word.split(" ")).forEach( e -> {
             try {
                 list.addFirst(DCLinkedListNode.with(e));
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
+            } catch (Exception exception) { 
+                System.err.println("[error] splitting word - testAddFirst..."
+                                    .concat(exception.getLocalizedMessage())); 
+                                                            }
         });
-        StringBuilder sb = new StringBuilder();
-        ILinkedListNode<String> node = list.getHead();
-        
-        assertEquals(list.count(), 6);
 
-        assertEquals("F", node.get());
+        // Traverse the list forward.
+        StringBuilder sbf = new StringBuilder();
+        Optional<ILinkedListNode> optf = list.getFirst();
+        while (optf.isPresent()) {
+            sbf.append(optf.get().get());
+            if (!optf.get().hasNext()) break;
+            optf = Optional.ofNullable(optf.get().getNext());
+        }
+        assertEquals("FEDCBA", sbf.toString());
 
-        assertEquals("E", node.getNext().get());
-
-        assertEquals("D", node.getNext()
-                              .getNext().get());
-
-        assertEquals("C", node.getNext()
-                              .getNext()
-                              .getNext().get());
-
-        assertEquals("B", node.getNext()
-                              .getNext()
-                              .getNext()
-                              .getNext().get());
-                              
-        assertEquals("A", node.getNext()
-                              .getNext()
-                              .getNext()
-                              .getNext()
-                              .getNext().get());
-        
-        assertEquals("A", list.getTail().get());
+        // Traverse the list backwards.
+        StringBuilder sbb = new StringBuilder();
+        Optional<ILinkedListNode> optb = list.getLast();
+        while(optb.isPresent()) {
+            sbb.append(optb.get().get());
+            if (!optb.get().hasPrevious()) break;
+            optb = Optional.ofNullable(optb.get().getPrevious());
+        }
+        assertEquals("ABCDEF", sbb.toString());
     }
 
     @Test
-    @DisplayName("Add first element to a non-empty list and check for all getPrevious, head and tail refs are good.")
-    public void testAddFirst() throws Exception {
-        
+    @DisplayName ("Add elements from the bottom and verify refs traversing" +
+                  "in both directions.")
+    public void testAddLast() throws Exception {
+
     }
 }

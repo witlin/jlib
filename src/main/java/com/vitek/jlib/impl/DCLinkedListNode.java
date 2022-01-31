@@ -56,7 +56,7 @@ public class DCLinkedListNode<T> implements ILinkedListNode<T> {
      * @return
      */
     public boolean hasNext() {
-        if(this.getNext() != null) return true;
+        if(next != null) return true;
         return false;
     }
 
@@ -65,7 +65,7 @@ public class DCLinkedListNode<T> implements ILinkedListNode<T> {
      * @return
      */
     public boolean hasPrevious() {
-        if(this.getPrevious() != null) return true;
+        if(previous != null) return true;
         return false;
     }
 
